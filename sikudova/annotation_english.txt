@@ -1,0 +1,14 @@
+The public-key cryptography used today (RSA, ElGamal,
+elliptic-curve cryptography) can theoretically be broken by
+quantum computers. One possible approach to post-quantum
+cryptography is lattice-based cryptography, whose security
+relies on the fact that some lattice problems are classified as
+NP-hard problems (including SVP). The thesis presents the basic
+algorithms for the lattice basis reduction used to find the
+approximate shortest vector and the enumeration that allows
+finding the exact solution of the SVP. This work introduces new
+approaches to solving SVP based on the Gram matrix, Cholesky
+decomposition and quadratic form. Practical examples are codes
+in the Python language and the system of SageMath. The
+different approaches are tested and analyzed. The results show
+the average distance of the optimum from the shortest vector.
