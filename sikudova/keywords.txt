@@ -1,6 +1,0 @@
-LLL algoritmus, Gramova matice, enumerace, bodová mříž,
-lineární kombinace, SVP, problém nejkratšího vektoru,
-Lagrangeův-Gaussův algoritmus, Choleského dekompozice, LLL
-algorithm, Gram matrix, enumeration, lattice, linear
-combination, SVP, shortest vector problem, Lagrange-Gauss
-algorithm, Cholesky decomposition
