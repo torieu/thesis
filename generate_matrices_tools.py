@@ -79,7 +79,10 @@ def into_dict(B, lcLLL, rowindex: int, dimension) -> dict:
 # Main functions
 
 def generate_new_examples(iterations, dimension, perimeter, sensitivity, jsonfilename, printing=False, functioning=True):
-    """Generates new examples and checks if a matrix is dysfunctional."""
+    """
+    Generates new examples and checks if a matrix is dysfunctional.
+    Output: number of dys matrices.
+    """
     output_data = []
     for _ in range(iterations):
         B = randomMatrix(dimension, perimeter)
