@@ -36,6 +36,9 @@ def vector_to_list(vector) -> list:
     return [float(num) for num in vector.list()]
 
 
+def vector_to_int_list(vector) -> list:
+    return [int(num) for num in vector.list()]
+
 def euclidean_norm(vector):
     return math.sqrt(sum(x**2 for x in vector))
 
@@ -151,11 +154,8 @@ def compare_with_cube(lcLLL, G, rng) -> bool:
     return False, working_case
         
 def find_real_minimum(G, current_row, inserted_component) -> vector:
-    """
-    returns linear combination of the minimum over real numbers
-    the >current_row< parameter is the coordinate of fixed col/row idk
-    the >K< parameter is the number inserted into this column
-    """
+    dimension = len(G)
+    print(type(dimension))
     matrixA = matrix(dimension - 1, dimension - 1, 0) # square matrix of size (dimension - 1) x (dimension - 1), filled with zeros.
     matrixB = matrix(dimension - 1, 1, 0) # column matrix of size (dimension - 1) x 1, filled with zeros.
     matrixA[0,0] = 1

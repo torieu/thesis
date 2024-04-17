@@ -1,6 +1,13 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# # vector swap
+# 
+# 
+
+# In[224]:
 
 
-# %%
 from generate import *
 from closest_vs_minimal import *
 
@@ -36,7 +43,10 @@ def find_real_minimum_genfile(G, current_row, inserted_component) -> vector:
     print(result)
     return vector(result).n(digits=5)
 
-# %%
+
+# In[225]:
+
+
 # %run closest_versus_minimal_tools.ipynb
 # def swapping_alg_ver1(dimension, perimeter):
 #     """ Verse s for cyklem """
@@ -142,10 +152,12 @@ def swapping(basis_as_matrix):
 # možná se ještě vyplatí opravit cube takto: co když sii jako real-min uložím něco, co ale je moc daleko a  
 # fixací JINÉ souřadnice ale dostanu už správnej výsledek? ještě na to mrkni viko
 
-# %% [markdown]
+
 # 
 
-# %%
+# In[230]:
+
+
 def counter(dimension : int, perimeter):
     res = {"True":0, "False":0}
     for i in range(100):
@@ -160,7 +172,10 @@ def counter(dimension : int, perimeter):
 
 counter(2, 100)
 
-# %%
+
+# In[227]:
+
+
 def first_nonzero_norm_vector(vectors):
     for v in vectors:
         if euclidean_norm(v) != 0:
@@ -182,6 +197,4 @@ assert testik(B_3) # FUNGUJE
 
 B_4 =  [[6, -4, -5], [9, 6, -10], [2, 9, 2]]
 assert testik(B_4) # FUNGUJE
-
-
 
