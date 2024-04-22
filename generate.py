@@ -167,7 +167,7 @@ def find_real_minimum(G, current_row, inserted_component) -> vector:
             a += 1
             b += 1
     # insert indices
-    print(A,"A")
+    # print(A,"A")
     result = (matrixA.solve_right((dimension) * matrixB)).list()
     result.insert(current_row, inserted_component)
     return vector(result).n(digits=5)

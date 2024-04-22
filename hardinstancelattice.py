@@ -1,7 +1,8 @@
 from sage.all import *
 
-def Iji_matrix(n, j, i):
-    return random_matrix(ZZ,n,j, algorithm='echelonizable', rank = min(n, j), upper_bound=i)
+def Iji_matrix(rows, cols, component_bound):
+    return random_matrix(ZZ,rows,cols, algorithm='echelonizable', rank = min(rows, cols), upper_bound=component_bound)
+    # n rows, j cols, nejvyšši čisla jsou i
 
 def hard_instance_lattice(n, r, q):
     '''
@@ -14,7 +15,7 @@ def hard_instance_lattice(n, r, q):
     assert  r < n
     q = Integer(q)
     assert q.is_prime() == True
-    A = Iji_matrix(n=n, j=r,  i=q)
+    A = Iji_matrix(rows=n, cols=r,  component_bound=q)
     b = matrix(GF(q), [0]*n).transpose()
     A_q = A.change_ring(GF(q))
     b_q = b.change_ring(GF(q))
@@ -25,6 +26,5 @@ def hard_instance_lattice(n, r, q):
     
     return K
 
-hard_instance_lattice(n=4, r=1, q=113)
-
+print(hard_instance_lattice(n=4, r=1, q=113))
 

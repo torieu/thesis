@@ -2,6 +2,7 @@
 from sage.all import *
 from copy import deepcopy
 import math
+from generate import *
 
 def closest_versus_grammatrix(jsonfilename):
     cases = from_json(jsonfilename)
@@ -73,13 +74,87 @@ def evaluate_norms_at_cube(vertices, B):
     Given a list of vertices and an integer cube and returns the norms of its vertices and corresponding vertices. 
     """
     vertices = [vertice for vertice in vertices if not all(v == 0 for v in vertice)]
-    norms = []
+    norms_and_vertices = []
     for vertice in vertices:
-        norms.append([(matrix(vertice) * matrix(B)).norm().n(), vertice])
-    # print("     (evaluate norms at cube funct)", sorted(norms))
-    return sorted(norms)
-    
-def shortest_lc_in_cube(lc_cube, B):
+        norms_and_vertices.append([(matrix(vertice) * matrix(B)).norm().n(), vertice])
+    return sorted(norms_and_vertices)
+
+def evaluate_norms_at_cube_efficient(floored_lc, B, fixed_index):
+    """
+    B: matrix as a list
+    floor: lc_cube but every float is rounded down
+    """
+    dim = len(B)
+    B = matrix(B)
+    # floored_times_B = rozepsane_nasobeni(floored_lc, B)
+    floored_lc = vector(floored_lc)
+    floored_vector = floored_lc * B
+    norms_and_vertices = [floored_vector]
+
+    for i in range(1, 2**(dim-1)):
+        bin_str = bin(i)[2:].zfill(dim-1)
+        tuple_result = [int(char) for char in bin_str]
+        tuple_result.insert(fixed_index, 0)
+        print(tuple_result,"tuple")
+        indices = [idx for idx, char in enumerate(bin_str) if char == '1']
+        this_vector=deepcopy(floored_vector)
+        print(this_vector, "this vector")
+        for indice in indices:
+            print(B[indice])
+            this_vector += B[indice]
+        print(this_vector, "this vector")
+        norms_and_vertices.append(vector(this_vector))
+        print()
+    return norms_and_vertices
+
+
+
+
+def rozepsane_nasobeni(v, A):
+    """
+    tvaru row vector * matice, ale vysledkem neni row, ale matice
+    kde se musi sečist čisilka ve sloupci a dostanu tak rows
+    """
+    A = matrix(A)
+    rows = A.nrows()
+    cols = A.ncols()
+    newA = matrix(rows, cols, 0)
+    for i in range(rows):
+        for j in range(cols):
+            newA[i,j] = A[i,j] * v[i]
+    return newA
+
+def secist_rozepsane_nasobeni_do_vektoru(A):
+    """
+    input: sage matrix A
+    output: sage vector 
+    absolutlely terrible implementation, is it actually helpful?
+    """
+    cols = [0] * A.ncols()
+    for i in range(A.ncols()):
+        for j in range(A.nrows()):
+            cols[i] += A[i,j]
+    return vector(cols)
+
+
+
+B = [
+    [8,-7, -5],
+    [-1, 1, 2],
+    [6, -4, -7]
+]
+
+floored_lc = [-1, 2,1]
+
+
+
+cube = [-0.3, 2.9, 1]
+print("efficient returned: ",evaluate_norms_at_cube_efficient(floored_lc, B,2))
+
+for i in range(4):
+    print("  ", vector(evaluate_norms_at_cube(cube_points(cube), B)[i][1])*matrix(B))
+
+def shortest_lc_in_cube(lc_cube, B) -> list:
     return evaluate_norms_at_cube(cube_points(lc_cube), B)[0][1]
 
 
