@@ -45,9 +45,8 @@ def euclidean_norm(vector):
 
 
 
-### output formatting
+### formatting tools
 import json
-import numpy as np
 
 def format_data(output_data):
     for dic in output_data:
@@ -59,7 +58,6 @@ def format_data(output_data):
             else:
                 dic[key] = vector_to_list(value)
     return output_data
-
 
 def into_json(data, jsonfilename):
     with open(jsonfilename, 'w') as f:
@@ -102,83 +100,21 @@ def into_dict(B, lcLLL: vector, lcCube: int, lc_exact) -> dict:
     return result
 
 
-    # MAIN 
-def generate_new_examples(iterations, dimension, perimeter, rng, jsonfilename, printing = False, functioning = True) -> None:
-    '''
-    generates >iterations< of >dis/functioning< matrices and saves them in a json file.
-    returns number of suitable cases
-    '''
-    output_data = []
-    it = 0
-    for i in range(iterations):
-    # while it < iterations:
-        B = randomMatrix(dimension, perimeter)
-        G = gram_matrix(B)
 
-        # Solve the SVP exactly
-        # FIXME
-        v_min = shortestVector(B.LLL())
-        lcLLL = B.solve_left(v_min)
+def random_special_matrix(dim, rng):
+    """
+    generates a random matrix of dimension >dim< in the form
+    (d_1    1   0   ...)
+    (d_1    0   1   ...)
+    (...    ... ... ...)
+    (d_dim    0   ... 0  )
 
-        # Compare the result with solution of the cube algorithm
-        this_case_works, lcCube = compare_with_cube(lcLLL, G, rng)
-        if this_case_works != functioning:
-            case_info = into_dict(B, lcLLL, lcCube)
-            output_data.append(case_info)
-            it +=1
-    
-    # Format output data
-    if printing: print_listdict(output_data)
-    dict = format_data(output_data)
-    into_json(dict, jsonfilename)
-    return len(output_data)
-
-
-def compare_with_cube(lcLLL, G, rng) -> bool:
-    working_case = None
-    for current_row in range(dimension):
-        # for K in range(2, rng):
-        LLL_component = lcLLL[current_row]
-        lcCube = find_real_minimum(G, current_row, LLL_component)
-        working_case = lcCube                
-
-        # Check for invalid cases
-        if norm_G(lcCube, G) > norm_G(lcLLL, G) or lcCube == zero_vector(SR, dimension):
-            continue
-
-        # Check if the two results are the same
-        for i in range(dimension - 1):  
-            difference = abs(lcLLL[i]) - abs(lcCube[i])
-            if abs(difference) >= sensitivity:
-                return True, lcCube
-    return False, working_case
-        
-def find_real_minimum(G, current_row, inserted_component) -> vector:
-    dimension = len(G)
-    print(type(dimension))
-    matrixA = matrix(dimension - 1, dimension - 1, 0) # square matrix of size (dimension - 1) x (dimension - 1), filled with zeros.
-    matrixB = matrix(dimension - 1, 1, 0) # column matrix of size (dimension - 1) x 1, filled with zeros.
-    matrixA[0,0] = 1
-    a, b = 0, 0
-    for row in range(dimension):
-        if row != current_row:
-            matrixA[a] = [G[row, j] for j in range(len(G[row])) if j != current_row]
-            matrixB[b] = sum([inserted_component * G[row,j] for j in range(len(G[row])) if j == current_row])
-            a += 1
-            b += 1
-    # insert indices
-    # print(A,"A")
-    result = (matrixA.solve_right((dimension) * matrixB)).list()
-    result.insert(current_row, inserted_component)
-    return vector(result).n(digits=5)
-
-# generate_new_examples(1, 3, 10, 3, "dummyfile.json", printing = False, functioning = False)
-
-
-def random_special_matrix(d, r ):
-    M = matrix(ZZ, d) 
-    for i in range(d):
-        M[i, 0] = randint(-r, r)  
-        if i > 0:
-            M[i-1, i] = 1
+    where ds are relatively large integers in the range >rng<
+    """
+    M = matrix(ZZ, dim) 
+    while M.rank() != dim:
+        for i in range(dim):
+            M[i, 0] = randint(-rng, rng)  
+            if i > 0:
+                M[i-1, i] = 1
     return M
