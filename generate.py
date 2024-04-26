@@ -175,11 +175,10 @@ def find_real_minimum(G, current_row, inserted_component) -> vector:
 # generate_new_examples(1, 3, 10, 3, "dummyfile.json", printing = False, functioning = False)
 
 
-def random_special_matrix(d, r, mu = 10^6, sigma = 10^5 ):
+def random_special_matrix(d, r ):
     M = matrix(ZZ, d) 
     for i in range(d):
         M[i, 0] = randint(-r, r)  
-        # M[i, 0] = int(round(normalvariate(mu, sigma)))  
         if i > 0:
             M[i-1, i] = 1
     return M
