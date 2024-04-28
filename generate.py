@@ -3,6 +3,10 @@ from random import randint, normalvariate
 from sage.all import *
 
 
+def shortest_lc_in_cube(lc_cube, B) -> list:
+    return evaluate_norms_at_cube(cube_points(lc_cube), B)[0][1]
+
+
 def shortestVector(matrix):
     """
     :returns: 
@@ -118,3 +122,6 @@ def random_special_matrix(dim, rng):
             if i > 0:
                 M[i-1, i] = 1
     return M
+
+
+

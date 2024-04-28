@@ -28,7 +28,7 @@ def detect_rounding(jsonfilename, limits):
                         stats[limit] = increment(stats, limit, 0)                        # rounding lead directly to lcLLL
                     else:
                         stats[limit] = increment(stats, limit, 1)                        # rounding didnt lead directly to lcLLL
-                        if lcLLL_is_in_same_direction(direction, num_cube, num_exact):
+                        if lc_exact_is_in_same_direction(direction, num_cube, num_exact):
                             stats[limit] = increment(stats, limit, 2)                    # but it was in the same direction
                         else: stats[limit] = increment(stats, limit, 3)                  # not even the same direction
     return stats
@@ -47,5 +47,5 @@ def increment(dic, limit, ind):
     lst[ind] += 1
     return lst
 
-def lcLLL_is_in_same_direction(direction, num_cube, num_exact, ):
+def lc_exact_is_in_same_direction(direction, num_cube, num_exact):
     return abs(num_cube - num_exact) - abs(round(num_cube) - num_exact) > 0
