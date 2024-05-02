@@ -1,8 +1,8 @@
 # UNINTERESTING TOOLS
 from random import randint, normalvariate
 from sage.all import *
-# from closest_vs_minimal import shortest_lc_in_cube
-import closest_vs_minimal 
+from closest_vs_minimal import shortest_lc_in_cube
+# import closest_vs_minimal 
 
 # def shortest_lc_in_cube(lc_cube, B) -> list:
 #     return evaluate_norms_at_cube(cube_points(lc_cube), B)[0][1]
