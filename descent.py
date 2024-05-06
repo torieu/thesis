@@ -1,6 +1,7 @@
 import itertools
-from  closest_vs_minimal import *
-
+from generate import *
+from sage.all import *
+from math import isclose
 
 def descent(jsonfilename):
     """
@@ -12,14 +13,12 @@ def descent(jsonfilename):
     pathways = []
     i=1
     for case in cases:
-        i+=1
-        if i==42 or True:
-            B, lc_cube, lc_exact = case["B"], case["lincomb_cube"], [int(i) for i in case["lincomb_exact"]]
-            r, pathway = descent_single(B, lc_cube, lc_exact)
-            reached.append(r)
-            pathways.append(pathway)
-            if not r:
-                plot_pathway_and_nearest_norms(pathway, case["lincomb_cube"], case["lincomb_exact"], case["B"], 4)
+        B, lc_cube, lc_exact = case["B"], case["lincomb_cube"], [int(i) for i in case["lincomb_exact"]]
+        r, pathway = descent_single(B, lc_cube, lc_exact)
+        reached.append(r)
+        pathways.append(pathway)
+        # if not r:
+            # plot_pathway_and_nearest_norms(pathway, case["lincomb_cube"], case["lincomb_exact"], case["B"], 4)
         
     return reached, pathways
 
@@ -35,8 +34,8 @@ def descent_single(B, lc_cube, lc_exact):
     # Find the point of the small cube with smallest norm and set it as a center
     min_norm, center = evaluate_norms_at_cube(cube_points(lc_cube), B)[0]
 
-     # If I reached the lcExact within the first cube, end
-    if min_norm == exact_norm:
+    #  If I reached the lcExact within the first cube, end
+    if isclose(min_norm, exact_norm, abs_tol=1e-4):
         pathway.append(center)
         reached = True
         pathway.append(lc_exact)
@@ -48,7 +47,7 @@ def descent_single(B, lc_cube, lc_exact):
         big_cube = big_cube_points(center)
         bigCubeMinimum_norm, bigCubeMinimum_lc = evaluate_norms_at_cube(big_cube, B)[0]
         # If I reached the lcExact, end with success status
-        if bigCubeMinimum_norm == exact_norm:
+        if isclose(bigCubeMinimum_norm,exact_norm, abs_tol=1e-4):
             pathway.append(bigCubeMinimum_lc)
             reached = True
             break
