@@ -72,7 +72,7 @@ def full_LLL_printing(basis, delta=0.75):
 
             k = max(k - 1, 1)
     basis = matrix(basis)
-    print(avg_norms,", ")
+    # print(avg_norms,", ")
     # print(shortest_norms_sequence)
     # ratios = [shortest_norms_sequence[i]/shortest_norms_sequence[i+1] for i in range(len(shortest_norms_sequence)-1)]
     # print(list(ratio s),",")

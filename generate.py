@@ -1,5 +1,5 @@
 # UNINTERESTING TOOLS
-from random import randint 
+from random import randint, seed
 from sage.all import *
 from copy import deepcopy
 import json
@@ -113,6 +113,7 @@ def random_special_matrix(dim, rng):
 
     where ds are relatively large integers in the range >rng<
     """
+    seed(int(42))
     M = matrix(ZZ, dim) 
     while M.rank() != dim:
         for i in range(dim):
